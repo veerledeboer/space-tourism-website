@@ -1,0 +1,59 @@
+/* ----------------------------- */
+/*          Reset                */
+/* ----------------------------- */
+
+/* Box Sizing */
+/* to calculate the width and height of things much easier */
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+}
+
+/* Reset Margins */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+    margin: 0;
+}
+
+/* Set core body defaults */
+body {
+    /*  so short pages won't be an issue */
+    min-height: 100vh;
+    /* line-height default on browsers is mostly 1.4 which is very small */
+    line-height: 1.5;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* make forms elements easier to work with */
+input,
+button,
+textarea,
+select{
+    font: inherit;
+}
+
+/* remove animations for people who've turned them off  */
+@media (prefers-reduced-motion: reduce) {  
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+}
