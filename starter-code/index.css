@@ -120,7 +120,6 @@ select{
     you can also use *:not(:first-child) which does the same thing
     this is done to not mess up all the spacing so alway add some!*/
     margin-top: var(--flow-space, 1rem);
-    outline : 1px solid red;
 }
 
 .container {
@@ -199,4 +198,41 @@ select{
     margin-right: .5em;
     color:hsl(var(--clr-white)/.25);
     font-weight: 700;
+}
+
+
+/* ----------------------------- */
+/*          Components           */
+/* ----------------------------- */
+
+/* large button */
+.large-button {
+    position: relative;
+    display: grid;
+    z-index: 1;
+    /*  place-items is a grid function that places the items in cente,r in this case only one item has to be in the center */
+    place-items: center;
+    text-decoration: none;
+    padding: 0 2em;
+    /* aspect-ratio makes it square */
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.large-button::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    background: hsl(var(--clr-white)/.15);
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 500ms linear, transform 750ms ease-in-out;
+}
+
+.large-button:hover::after,
+.large-button:focus::after{
+    opacity: 1;
+    transform: scale(1.5);
 }
