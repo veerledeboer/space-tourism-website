@@ -1,43 +1,63 @@
-/* ----------------------------- */
-/* Custom Properties             */
-/* ----------------------------- */
+/* ------------------- */
+/* Custom properties   */
+/* ------------------- */
 
-:root{
+:root {
     /* colors */
     --clr-dark: 230 35% 7%;
     --clr-light: 231 77% 90%;
     --clr-white: 0 0% 100%;
-
+    
     /* font-sizes */
-    --fs-900: 9.375rem;
-    --fs-800: 6.25rem;
-    --fs-700: 3.5rem;
-    --fs-600: 2rem;
+    --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
+    --fs-800: 3.5rem;
+    --fs-700: 1.5rem;
+    --fs-600: 1rem;
     --fs-500: 1.75rem;
-    --fs-400: 1.125rem;
+    --fs-400: 0.9375rem;
     --fs-300: 1rem;
     --fs-200: 0.875rem;
-   
+    
     /* font-families */
     --ff-serif: "Bellefair", serif;
     --ff-sans-cond: "Barlow Condensed", sans-serif;
     --ff-sans-normal: "Barlow", sans-serif;
 }
 
+@media (min-width: 35em) {
+    :root {
+        --fs-800: 5rem;
+        --fs-700: 2.5rem;
+        --fs-600: 1.5rem;
+        --fs-400: 1rem;
+    }
+}
 
-/* ----------------------------- */
-/*          Reset                */
-/* ----------------------------- */
+@media (min-width: 45em) {
+    :root {
+        /* font-sizes */
+        --fs-800: 6.25rem;
+        --fs-700: 3.5rem;
+        --fs-600: 2rem;
+        --fs-400: 1.125rem;
+    }
+}
 
-/* Box Sizing */
-/* to calculate the width and height of things much easier */
+
+/* ------------------- */
+/* Reset               */
+/* ------------------- */
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+
+/* Box sizing */
 *,
 *::before,
-*::after{
+*::after {
     box-sizing: border-box;
 }
 
-/* Reset Margins */
+/* Reset margins */
 body,
 h1,
 h2,
@@ -47,7 +67,7 @@ h5,
 p,
 figure,
 picture {
-    margin: 0;
+    margin: 0; 
 }
 
 h1,
@@ -60,106 +80,134 @@ p {
     font-weight: 400;
 }
 
-
-/* Set core body defaults */
+/* set up the body */
 body {
-    font-family: var(--ff-serif);
+    font-family: var(--ff-sans-normal);
     font-size: var(--fs-400);
-    font-weight: 400;
-    color: hsl(var(--clr-white));
-    background-color: hsl(var(--clr-dark));
-    /*  so short pages won't be an issue */
-    min-height: 100vh;
-    /* line-height default on browsers is mostly 1.4 which is very small */
+    color: hsl( var(--clr-white) );
+    background-color: hsl( var(--clr-dark) );
     line-height: 1.5;
+    min-height: 100vh;
+    
+    display: grid;
+    grid-template-rows: min-content 1fr;
 }
 
-/* Make images easier to work with */
+/* make images easier to work with */
 img,
-picture {
-  max-width: 100%;
-  display: block;
+picutre {
+    max-width: 100%;
+    display: block;
 }
 
-/* make forms elements easier to work with */
+/* make form elements easier to work with */
 input,
 button,
 textarea,
-select{
+select {
     font: inherit;
 }
 
-/* remove animations for people who've turned them off  */
+/* remove animations for people who've turned them off */
 @media (prefers-reduced-motion: reduce) {  
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-/* ----------------------------- */
-/*          UTILITY CLASSES      */
-/* ----------------------------- */
+
+/* ------------------- */
+/* Utility classes     */
+/* ------------------- */
+
+/* general */
 
 .flex {
-    display:flex;
+    display: flex;
     gap: var(--gap, 1rem);
 }
 
 .grid {
-    display:grid;
+    display: grid;
     gap: var(--gap, 1rem);
 }
 
+.d-block {
+    display: block;
+}
+
 .flow > *:where(:not(:first-child)) {
-    /* * + * looks at if the element has a sibling before it 
-    you can also use *:not(:first-child) which does the same thing
-    this is done to not mess up all the spacing so alway add some!*/
     margin-top: var(--flow-space, 1rem);
 }
 
 .container {
     padding-inline: 2em;
-    max-width: 80rem;
     margin-inline: auto;
+    max-width: 80rem;
 }
 
-/* screen reading only ! always add it!*/
+.grid-container {
+    text-align: center;
+    display: grid;
+    place-items: center;
+    padding-inline: 1rem;
+}
+
+.grid-container * {
+    max-width: 50ch;
+}
+
+@media (min-width: 45em) {
+    .grid-container {
+        text-align: left;
+        column-gap: var(--container-gap, 2rem);
+        grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(0, 30rem)) minmax(2rem, 1fr);
+    }
+    
+    .grid-container > *:first-child {
+        grid-column: 2;
+    }
+
+    .grid-container > *:last-child {
+        grid-column: 3;
+    }
+
+    .grid-container--home{
+        padding-bottom:max(6rem,20vh);
+        align-items: end;
+    }
+}
+
 .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap; /* added line */
-    border: 0;
+  position: absolute; 
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px; 
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* added line */
+  border: 0;
 }
 
-/*  COLORS  */
+/* colors */
 
-.bg-dark{ background-color: hsl(var(--clr-dark));}
-.bg-accent{ background-color: hsl(var(--clr-light));}
-.bg-white{ background-color: hsl(var(--clr-white));}
+.bg-dark { background-color: hsl( var(--clr-dark) );}
+.bg-accent { background-color: hsl( var(--clr-light) );}
+.bg-white { background-color: hsl( var(--clr-white) );}
 
-.text-dark{color: hsl(var(--clr-dark));}
-.text-accent{color: hsl(var(--clr-light));}
-.text-white{color: hsl(var(--clr-white));}
+.text-dark { color: hsl( var(--clr-dark) );}
+.text-accent { color: hsl( var(--clr-light) );}
+.text-white { color: hsl( var(--clr-white) );}
 
-.example-component{
-    background-color: hsl(var(--clr-light)/.2);
-}
-.text-dark-half{color:hsl(var(--clr-dark)/.5)};
-.text-white-half{color:hsl(var(--clr-white)/.5)};
+/* typography */
 
-/* ----- TYPOHRAPHY ------ */
-
-.ff-serif { font-family: var(--ff-serif); font-style: normal; } 
+.ff-serif { font-family: var(--ff-serif); } 
 .ff-sans-cond { font-family: var(--ff-sans-cond); } 
 .ff-sans-normal { font-family: var(--ff-sans-normal); } 
 
@@ -178,7 +226,6 @@ select{
 .fs-300 { font-size: var(--fs-300); }
 .fs-200 { font-size: var(--fs-200); }
 
-
 .fs-900,
 .fs-800,
 .fs-700,
@@ -186,59 +233,55 @@ select{
     line-height: 1.1;
 }
 
-/* ------ numbered title -------- */
 .numbered-title {
     font-family: var(--ff-sans-cond);
-    text-transform: uppercase;
     font-size: var(--fs-500);
-    letter-spacing: 4.72px;
+    text-transform: uppercase;
+    letter-spacing: 4.72px; 
 }
 
-.numbered-title span{
+.numbered-title span {
     margin-right: .5em;
-    color:hsl(var(--clr-white)/.25);
     font-weight: 700;
+    color: hsl( var(--clr-white) / .25);
 }
 
 
-/* ----------------------------- */
-/*          Components           */
-/* ----------------------------- */
+/* ------------------- */
+/* Compontents         */
+/* ------------------- */
 
-/* large button */
 .large-button {
+    font-size: 2rem;
     position: relative;
-    display: grid;
     z-index: 1;
-    /*  place-items is a grid function that places the items in cente,r in this case only one item has to be in the center */
+    display: inline-grid;
     place-items: center;
-    text-decoration: none;
     padding: 0 2em;
-    /* aspect-ratio makes it square */
-    aspect-ratio: 1;
     border-radius: 50%;
+    aspect-ratio: 1;
+    text-decoration: none;
 }
 
 .large-button::after {
     content: '';
     position: absolute;
     z-index: -1;
-    background: hsl(var(--clr-white)/.15);
     width: 100%;
     height: 100%;
-    border-radius: inherit;
+    background: hsl( var(--clr-white) / .1);
+    border-radius: 50%;
     opacity: 0;
     transition: opacity 500ms linear, transform 750ms ease-in-out;
 }
-
+ 
 .large-button:hover::after,
-.large-button:focus::after{
+.large-button:focus::after {
     opacity: 1;
     transform: scale(1.5);
 }
 
-/* underlined indicators */
-.primary-navigation{
+.primary-navigation {
     --gap: 8rem;
     --underline-gap: 2rem;
     list-style: none;
@@ -256,21 +299,21 @@ select{
 }
 
 .underline-indicators > * {
+    cursor: pointer;
     padding: var(--underline-gap, 1rem) 0;
     border: 0;
-    cursor: pointer;
-    border-bottom: .2rem solid hsl(var(--clr-white)/ 0);
+    border-bottom: .2rem solid hsl( var(--clr-white) / 0 );
 }
 
-.underline-indicators> *:hover,
+.underline-indicators > *:hover,
 .underline-indicators > *:focus {
-    border-color: hsl(var(--clr-white)/.25);
+    border-color: hsl( var(--clr-white) / .5);
 }
 
-.underline-indicators> .active,
+.underline-indicators > .active,
 .underline-indicators > [aria-selected="true"] {
-    color: hsl(var(--clr-white)/1);
-    border-color: hsl(var(--clr-white)/1);
+    color: hsl( var(--clr-white) / 1);
+    border-color: hsl( var(--clr-white) / 1); 
 }
 
 .tab-list {
@@ -279,42 +322,45 @@ select{
 
 .dot-indicators > * {
     cursor: pointer;
-    background-color: hsl(var(--clr-white) /.25);
     border: 0;
     border-radius: 50%;
-    /* makes a perfect circle */
-    aspect-ratio: 1;
-    padding: 0.5em;
+    padding: .5em;
+    background-color: hsl( var(--clr-white) / .25);
 }
-
+ 
 .dot-indicators > *:hover,
-.dot-indicators > *:focus {
-    background-color: hsl(var(--clr-white) /.5);
-}
-  
-.dot-indicators> [aria-selected="true"]{
-    background-color: hsl(var(--clr-white));
+.dot-indicators > *:focus { 
+    background-color: hsl( var(--clr-white) / .5);
 }
 
-.number-indicators > * {
-    cursor: pointer;
-    color: hsl(var(--clr-white));
-    background-color: hsl(var(--clr-dark));
-    border: 1px solid hsl(var(--clr-light)/.5);
-    border-radius: 50%;
-    /* makes a perfect circle */
-    width: 4em;
-    aspect-ratio: 1;
-    place-items: center;
+.dot-indicators > [aria-selected="true"] {
+    background-color: hsl( var(--clr-white) / 1); 
 }
 
-.number-indicators > *:hover,
-.number-indicators > *:focus{
-    border: 1px solid hsl(var(--clr-white));
+/* ----------------------------- */
+/* Page specific background      */
+/* ----------------------------- */
 
+/* home */
+
+.home{
+    background-size: cover;
+    background-position: bottom center;
+    background-image: url(./assets/home/background-home-mobile.jpg);
 }
 
-.number-indicators> [aria-selected="true"]{
-    background-color: hsl(var(--clr-white));
-    color: hsl(var(--clr-dark));
+@media (min-width: 35rem) {
+    .home {
+        background-position: center center;
+        background-image: url(./assets/home/background-home-tablet.jpg);
+    }
 }
+
+@media (min-width: 45rem) {
+    .home {
+        background-image: url(./assets/home/background-home-desktop.jpg);
+    }
+}
+
+
+
