@@ -91,6 +91,8 @@ body {
     
     display: grid;
     grid-template-rows: min-content 1fr;
+
+    overflow-x: hidden;
 }
 
 /* make images easier to work with */
@@ -282,11 +284,53 @@ select {
 }
 
 .primary-navigation {
-    --gap: 8rem;
     --underline-gap: 2rem;
     list-style: none;
     padding: 0;
     margin: 0;
+    background: hsl(var(--clr-dark), 0.95);
+}
+
+.mobile-nav-toggle{
+    display: none;
+}
+
+@supports (backdrop-filter: blur(1.5rem)){
+    .primary-navigation{
+        background: hsl(var(--clr-white), 0.01);
+        backdrop-filter: blur(1.5rem);
+    }
+}
+
+
+@media (max-width:35rem) {
+    .primary-navigation {
+        --underline-gap: 0.5rem;
+        position: fixed;
+        z-index: 1000;
+        inset: 0 0 0 30%;
+        list-style: none;
+        padding: min(20rem, 10vh) 2rem;
+        margin: 0;
+        flex-direction: column;
+    }
+
+    .mobile-nav-toggle{
+        display: block;
+        position: absolute;
+        z-index: 2000;
+        right: 1rem;
+        top: 2rem;
+        background: transparent;
+        background-image: url("./assets/shared/icon-hamburger.svg");
+        background-repeat: no-repeat;
+        width: 1.5rem;
+        aspect-ratio: 1;
+        border: 0;
+    }
+    .primary-navigation.underline-indicators > .active{
+        border: 0;
+    }
 }
 
 .primary-navigation a {
@@ -305,16 +349,15 @@ select {
     border-bottom: .2rem solid hsl( var(--clr-white) / 0 );
 }
 
-.underline-indicators > *:hover,
-.underline-indicators > *:focus {
-    border-color: hsl( var(--clr-white) / .5);
-}
-
 .underline-indicators > .active,
 .underline-indicators > [aria-selected="true"] {
     color: hsl( var(--clr-white) / 1);
     border-color: hsl( var(--clr-white) / 1); 
 }
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+    border-color: hsl( var(--clr-white) / .5);}
 
 .tab-list {
     --gap: 2rem;
@@ -358,6 +401,7 @@ select {
 
 @media (min-width: 45rem) {
     .home {
+
         background-image: url(./assets/home/background-home-desktop.jpg);
     }
 }
